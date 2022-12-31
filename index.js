@@ -19,10 +19,23 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-// your first API endpoint...
-app.get('/api/hello', function (req, res) {
-  res.json({ greeting: 'hello API' });
-});
+
+
+
+app.get('/api/whoami', function (req, res) {
+
+  //const ipaddress = req.socket.remoteAddress
+  const ipaddress = req.header('x-forwarded-for');
+
+
+  res.json( {
+    "ipaddress": ipaddress,	 //"159.20.14.100"
+    "language": req.headers['accept-language'], //"en-US,en;q=0.5"
+    "software": req.headers['user-agent'] //"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0"
+    });
+    
+  });
+
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT || 3000, function () {
